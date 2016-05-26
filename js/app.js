@@ -165,6 +165,8 @@ window.onload = function() {
             // Create an array/object of cues? end start text
 
       var textTranscript = document.getElementById("text-transcript");
+      
+      //Object array to hold text cue markers and associated sentence text
       var syncData = [
             {"start": "0","end": "7.535","text": "Now that we've looked at the architecture of the internet, let's see how you might connect your personal devices to the internet inside your house."},
             {"start": "7.536","end": "13.960","text": "Well there are many ways to connect to the internet, and most often people connect wirelessly."},
@@ -176,8 +178,9 @@ window.onload = function() {
             {"start": "57.780","end": "59.000","text": "A few common residential modems are DSL or..."}            
           ];
           
-      createTranscript();
-
+      createTranscript(); //call function to create text on page
+      
+        //Creates the transcript content on the page using the object above
       function createTranscript() {
           var element;
           for (var i = 0; i < syncData.length; i++) {
@@ -187,11 +190,14 @@ window.onload = function() {
               textTranscript.appendChild(element);
           }
       }
-            
+        //Event listener for text transcript highlight changes
         video.addEventListener("timeupdate", function(e) {
             syncData.forEach(function(element, index, array){
                 if( video.currentTime >= element.start && video.currentTime <= element.end )
-                    textTranscript.children[index].style.background = 'rgba(254, 187, 55, 0.75)';
+                    textTranscript.children[index].classList.add("active-cue");
+                    if (video.currentTime > element.end) {
+                        textTranscript.children[index].classList.remove("active-cue");    
+                    } //OMG THIS WORKS
             });
         });
 

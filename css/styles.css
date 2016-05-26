@@ -1,0 +1,200 @@
+*, *::after, *:before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8em;
+    line-height: 1.75;
+    color: #645f5f;
+}
+
+p {
+    margin: 1.5em;
+}
+
+video {
+    width: 100%;
+}
+
+.wrapper  {
+    width: 75%;
+    margin: 10px auto 0;
+}
+
+#video-container {
+	position: relative;
+	margin: 0 auto;
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 30;
+    left: 0;
+    right: 0;
+    padding: 10px 15px 0;
+    background: transparent;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+}
+
+#video-container:hover .video-controls {
+    opacity: 1;
+    transform: translate(0,-55px);
+        -webkit-transform: translate(0,-55px);
+        -o-transform: translate(0,-55px); 
+        -moz-transform: translate(0,-55px);
+} /*show controls on hover*/
+
+#seek-bar {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+        appearance: none;
+    width: 98%;
+    height: 23px;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 10px 0;
+    z-index: 1;
+    transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+}
+
+#buffered-bar {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+        appearance: none;
+    width: 98%;
+    height: 23px;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 10px 0;
+    transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+}
+
+
+@-moz-document url-prefix() { /*stupid firefox height fix*/
+    #seek-bar,
+    #buffered-bar {
+        height: 4px;
+        padding:  0;
+        bottom:  20px;
+        border:  none;
+    }
+    
+    #seek-bar {
+        z-index: 1;
+    }
+
+}
+
+#video-container:hover #seek-bar,
+#video-container:hover #buffered-bar {
+    transform: translate(0,-35px);
+        -webkit-transform: translate(0,-35px);
+        -o-transform: translate(0,-35px); 
+        -moz-transform: translate(0,-35px);
+}
+
+#seek-bar::-webkit-progress-bar,
+#buffered-bar::-webkit-progress-bar {
+    background-color: rgba(232, 232, 232, 0.3);
+}
+
+#seek-bar::-webkit-progress-value {
+    background-color: orange;
+}
+
+#buffered-bar::-webkit-progress-value {
+    background-color: rgba(255, 255, 255, .4);
+}
+
+/*Firefox will only let you style the value, not the background of the bar*/
+
+#seek-bar::-moz-progress-bar {
+    background-color: orange;
+}
+
+#buffered-bar::-moz-progress-bar {
+    background-color: rgba(255, 255, 255, .4);
+}
+
+button {
+    background: transparent;
+    border: none;
+}
+
+#mute,
+#full-screen,
+#closed-caption {
+    float: right;
+    padding-right: 10px;
+}
+
+video::cue {
+    font-family: 'Open Sans', sans-serif;
+    font-size: .6em;
+    line-height: 1.2;
+}
+
+#slash {
+    color: white;
+    position: absolute;
+    bottom: 9px;
+    left: 90px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+#current-time {
+    color: white;
+    font-size: 1em;
+    padding-left: 10px;
+    padding-right: 1px;
+    position: absolute;
+    bottom: 9px;
+    left: 50px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+#duration {
+    color: white;
+    font-size: 1em;
+    padding-right: 1px;
+    position: absolute;
+    display: inline-block;
+    bottom: 9px;
+    left: 100px;
+    font-weight: bold;
+}
+
+
+/*TO DO
+
+X  Embed the video using HTML.
+
+X  Check that the video works in at least 3 modern browsers.
+
+X  Add the transcript below the video (as shown in the mockup file). Use the captions.txt file for the text. Add appropriate <p> tags around the text.
+
+X  Style the page using the mockups as guides.
+    
+X  Use Javascript or CSS to hide and show the video player button on mouse hover states.
+    X  -Only the progress bar should remain.
+
+A creative and thoughtful responsive design.
+
+Refactor and DRY out CSS
+
+Make sure X-browser compatible (post-github upload)
+*/
+

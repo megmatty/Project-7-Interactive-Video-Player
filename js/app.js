@@ -195,9 +195,9 @@ window.onload = function() {
             syncData.forEach(function(element, index, array){
                 if( video.currentTime >= element.start && video.currentTime <= element.end )
                     textTranscript.children[index].classList.add("active-cue");
-                    if (video.currentTime > element.end) {
+                    if (video.currentTime < element.start || video.currentTime > element.end) {
                         textTranscript.children[index].classList.remove("active-cue");    
-                    } //OMG THIS WORKS
+                    } //OMG THIS WORKS, removes class from nonactive text
             });
         });
 

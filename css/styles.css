@@ -177,6 +177,9 @@ video::cue {
     font-weight: bold;
 }
 
+.active-cue {
+    background-color: rgba(254, 198, 127, 0.75);
+}
 
 /*TO DO
 

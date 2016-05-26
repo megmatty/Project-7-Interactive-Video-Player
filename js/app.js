@@ -193,7 +193,6 @@ window.onload = function() {
                 if( video.currentTime >= element.start && video.currentTime <= element.end )
                     textTranscript.children[index].style.background = 'rgba(254, 187, 55, 0.75)';
             });
-       
         });
 
 

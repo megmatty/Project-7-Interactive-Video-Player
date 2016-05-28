@@ -111,7 +111,6 @@ window.onload = function() {
         function bufferProgress() {
             // Calculate the buffered bar progress value
     		var value = (100 / video.duration) * video.buffered.end(0);
-    
     		// Update the buffered bar value
     		bufferedBar.value = value;
         }
@@ -120,35 +119,23 @@ window.onload = function() {
     //Event Handling        
         
         //Event listener for play-pause button
-        playButton.addEventListener("click", function() {
-        	playVideo();
-        });
-        
+        playButton.addEventListener("click", playVideo);
+                
         // Event listener for the mute button
-     	muteButton.addEventListener("click", function() {
-            muteVideo();     		
-     	});
-     
+     	muteButton.addEventListener("click", muteVideo); 
+     	     
         // Event listener for the full-screen button
-        fullScreenButton.addEventListener("click", function() {
-            fullScreen();
-        });
-        
+        fullScreenButton.addEventListener("click", fullScreen); 
+                
         // Event listener for the closed-caption button
-        closedCaptionButton.addEventListener("click", function() {            	
-            closedCaptions();	
-        });
-        
+        closedCaptionButton.addEventListener("click", closedCaptions);
+                
         // Event handler for seekbar progress indication
-        video.addEventListener("timeupdate", function() {
-            seekProgress();	
-        }); 
-        
+        video.addEventListener("timeupdate", seekProgress);
+                
         // Event handler for buffer progress indication
-        video.addEventListener("timeupdate", function() {
-            bufferProgress();	
-        }); 
-        
+        video.addEventListener("timeupdate", bufferProgress);
+                
         // Event handler for updating playbar to seekbar click
         seekBar.addEventListener("click", function(event) {
             var barClick = event.offsetX / this.offsetWidth;
@@ -156,17 +143,18 @@ window.onload = function() {
             seekBar.value = barClick / 100;
         });
     
+        //event listener for end of video to set back to start
+        video.addEventListener("timeupdate", function(event) {
+            if (video.currentTime == video.duration) {
+                video.currentTime = 0;
+            }
+        })
     
     // Interactive Transcript
-        // Event listener for video playback changes, timeUpdate
-        // Need CSS class for highlight text, applied to each sentence in <p>
-        // When clicking sentence, highlight class is applied
-        // When clicking sentence, video.CurrentTime is updated to new time that matches cue in vtt
-            // Create an array/object of cues? end start text
 
       var textTranscript = document.getElementById("text-transcript");
       
-      //Object array to hold text cue markers and associated sentence text
+      //JSON to hold text cue markers and associated sentence text
       var syncData = [
             {"start": "0","end": "7.535","text": "Now that we've looked at the architecture of the internet, let's see how you might connect your personal devices to the internet inside your house."},
             {"start": "7.536","end": "13.960","text": "Well there are many ways to connect to the internet, and most often people connect wirelessly."},
@@ -177,15 +165,18 @@ window.onload = function() {
             {"start": "53.761","end": "57.780","text": "A modem is what connects the internet to your network at home."},
             {"start": "57.780","end": "59.000","text": "A few common residential modems are DSL or..."}            
           ];
+
+
           
       createTranscript(); //call function to create text on page
       
-        //Creates the transcript content on the page using the object above
+      //Creates the transcript content on the page using the object above
       function createTranscript() {
           var element;
           for (var i = 0; i < syncData.length; i++) {
               element = document.createElement('span');
-              element.setAttribute("id", "cue_" + i);
+//                element.setAttribute("id", "cue_" + i);
+              element.cue = syncData[i];
               element.innerText = syncData[i].text + " ";
               textTranscript.appendChild(element);
           }
@@ -194,49 +185,35 @@ window.onload = function() {
         video.addEventListener("timeupdate", function(e) {
             syncData.forEach(function(element, index, array){
                 if( video.currentTime >= element.start && video.currentTime <= element.end )
+                    textTranscript.children[index].classList.remove("inactive-cue");
                     textTranscript.children[index].classList.add("active-cue");
                     if (video.currentTime < element.start || video.currentTime > element.end) {
-                        textTranscript.children[index].classList.remove("active-cue");    
-                    } //OMG THIS WORKS, removes class from nonactive text
+                        textTranscript.children[index].classList.remove("active-cue");
+                        textTranscript.children[index].classList.add("inactive-cue");  
+                    } //OMG THIS WORKS
             });
         });
 
+        //Event listener for text click on transcript - i think this is working
+            //when you click on a span
+            var sentences = textTranscript.getElementsByTagName('span');
+            for (var i = 0; i < sentences.length; i++) {
+                sentences[i].addEventListener("click", textJump);
+            }
+            
+ 
+        function textJump(e) {
+             video.currentTime = e.target.cue.start;
+             video.play();
+         }
+  
 
-  
-  
-  
 
      
    
 } //End window.onload
 
-       
- 
-//       this works but breaks seek and is awkward
-//       if (time > 0 && time < 7.535) {
-//           document.getElementById("cue_1").classList.add("active-cue");
-//       } else if (time > 7.535 && time < 13.960) {
-//           document.getElementById("cue_1").classList.remove("active-cue");
-//           document.getElementById("cue_2").classList.add("active-cue");
-//       } else if (time > 13.960 && time < 17.940) {
-//           document.getElementById("cue_2").classList.remove("active-cue");
-//           document.getElementById("cue_3").classList.add("active-cue");
-//       } else if (time > 17.940 && time < 30.920) {
-//           document.getElementById("cue_3").classList.remove("active-cue");
-//           document.getElementById("cue_4").classList.add("active-cue");
-//       } else if (time >= 32.100 && time < 41.190) {
-//           document.getElementById("cue_4").classList.remove("active-cue");
-//           document.getElementById("cue_5").classList.add("active-cue");
-//       } else if (time >= 42.350 && time < 53.760) {
-//           document.getElementById("cue_5").classList.remove("active-cue");
-//           document.getElementById("cue_6").classList.add("active-cue");
-//       } else if (time > 53.760 && time < 57.780) {
-//           document.getElementById("cue_6").classList.remove("active-cue");
-//           document.getElementById("cue_7").classList.add("active-cue");
-//       } else if (time > 57.780) {
-//           document.getElementById("cue_7").classList.remove("active-cue");
-//           document.getElementById("cue_8").classList.add("active-cue");
-//       } 
+
        
 
 
@@ -246,6 +223,8 @@ window.onload = function() {
 
 //To Do
 
+    //clean up organization, comment all code
+    
     // X  Implement the play and pause buttons.
     
     // X  Add volume button that lets you mute the sound or turn it on.
@@ -260,10 +239,9 @@ window.onload = function() {
        // X  -As the video plays the playback bar should fill in.
        // X  -As the video plays the current time should be displayed and updated e.g. 0:10 / 11:34.
     
-    //As the media playback time changes, sentences in the transcript should highlight.
-        //-Use JavaScript to listen for those changes and apply a highlight to the appropriate sentence.
-        //-You can use the captions.vtt file to see the times at which the words are spoken in the video.
-    //When the user clicks on any sentence in the transcript the video player jumps to the appropriate time in the video.
+    // X As the media playback time changes, sentences in the transcript should highlight.
+
+    // X When the user clicks on any sentence in the transcript the video player jumps to the appropriate time in the video.
     
 //    Playback speed control or other helpful controls.
 //    

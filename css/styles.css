@@ -4,7 +4,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    font-size: 0.8em;
+    font-size: 0.9em;
     line-height: 1.75;
     color: #645f5f;
 }
@@ -25,6 +25,7 @@ video {
 #video-container {
 	position: relative;
 	margin: 0 auto;
+	overflow: hidden;
 }
 
 .video-controls {
@@ -178,7 +179,22 @@ video::cue {
 }
 
 .active-cue {
-    background-color: rgba(254, 198, 127, 0.75);
+    color: #ed8004;
+    transition: all .6s ease-in-out;
+}
+
+.inactive-cue {
+    color: #645f5f;
+    transition: all .6s ease-in-out;
+}
+
+#text-transcript span {
+    cursor: pointer;
+    transition: all .6s ease-in-out;
+}
+
+#text-transcript span:hover {
+    color: #ed8004;
 }
 
 /*TO DO
@@ -193,6 +209,7 @@ X  Style the page using the mockups as guides.
     
 X  Use Javascript or CSS to hide and show the video player button on mouse hover states.
     X  -Only the progress bar should remain.
+Hover over span sentences highlight
 
 A creative and thoughtful responsive design.
 

@@ -22,14 +22,16 @@
                 </video>
                 
                 <!--Video Controls-->
-                <progress min="0" max="100" id="seek-bar" value="0" /></progress>
-                <progress min="0" max="100" id="buffered-bar" value="0" /></progress><br />
+                <progress max="100" id="buffered-bar" value="0"></progress>
+                <progress max="100" id="seek-bar" value="0"></progress>
                 <div class="video-controls">
                     <button type="button" id="play-pause">
                         <img id="play-pause-icon" src="icons/play-icon.png" alt="Play Button" />
                     </button>
                     
-                    <span id="current-time" />0:00</span> <span id="slash"> / </span><span id="duration">0:00</span>
+                    <span id="current-time">0:00</span> <span id="slash"> &#8725; </span><span id="duration">0:00</span>
+                    
+                    <button type="button" id="rewind-10"><img src="icons/rewind-10-icon.png" alt="Rewind 10 Seconds" /></button>
                     
                     <button type="button" id="full-screen">
                         <img src="icons/fullscreen-icon.png" alt="Full Screen" />
@@ -37,9 +39,14 @@
                     <button type="button" id="mute">
                         <img id="mute-icon" src="icons/volume-on-icon.png" alt="Mute Button" />
                     </button>
+                    <button type="button" id="volume-up"> + </button>
+                    <span id="volume"> VOL </span>
+                    <button type="button" id="volume-down"> &#8211; </button>
+                    
                     <button type="button" id="closed-caption">
                         <img id="closed-caption-icon" src="icons/closed-caption-icon.png" alt="Closed Captions" />
                     </button>
+
                 </div>
                 
             </div>

@@ -8,17 +8,49 @@ window.onload = function() {
     var muteButton = document.getElementById("mute");
     var fullScreenButton = document.getElementById("full-screen");
     var closedCaptionButton = document.getElementById("closed-caption");
+    var volumeUpButton = document.getElementById("volume-up");
+    var volumeDownButton = document.getElementById("volume-down");
+    var rewind10SecButton = document.getElementById("rewind-10");
 
     //Progress Bars
     var seekBar = document.getElementById("seek-bar");
     var bufferedBar = document.getElementById("buffered-bar"); 
     
+    //Transcript
+    var textTranscript = document.getElementById("text-transcript");
+    
+    //JSON for cue start/end times & text
+    var syncData = [
+          {"start": "0.01","end": "7.535","text": "Now that we've looked at the architecture of the internet, let's see how you might connect your personal devices to the internet inside your house."},
+          {"start": "7.536","end": "13.960","text": "Well there are many ways to connect to the internet, and most often people connect wirelessly."},
+          {"start": "13.961","end": "17.940","text": "Let's look at an example of how you can connect to the internet."},
+          {"start": "17.941","end": "30.920","text": "If you live in a city or a town, you probably have a coaxial cable for cable Internet, or a phone line if you have DSL, running to the outside of your house, that connects you to the Internet Service Provider, or ISP."},
+          {"start": "32.100","end": "41.190","text": "If you live far out in the country, you'll more likely have a dish outside your house, connecting you wirelessly to your closest ISP, or you might also use the telephone system."},
+          {"start": "42.350","end": "53.760","text": "Whether a wire comes straight from the ISP hookup outside your house, or it travels over radio waves from your roof, the first stop a wire will make once inside your house, is at your modem."},
+          {"start": "53.761","end": "57.780","text": "A modem is what connects the internet to your network at home."},
+          {"start": "57.781","end": "59.000","text": "A few common residential modems are DSL or..."}            
+        ];
+        
+      //Call function to create transcript on page 
+      createTranscript();
+
     
     //Functions
-    
+        
+        //Creates the transcript content on the page using JSON
+        function createTranscript() {
+            var element;
+            for (var i = 0; i < syncData.length; i++) {
+                element = document.createElement('span');
+                element.cue = syncData[i];
+                element.innerText = syncData[i].text + " ";
+                textTranscript.appendChild(element);
+            }
+        }
+        
         // Play-Pause Video
         function playVideo() {
-            if (video.paused == true) {
+            if (video.paused === true) {
             	// Play the video
             	video.play();
                 //Update button img to Pause icon
@@ -33,7 +65,7 @@ window.onload = function() {
     
         // Mute Video
         function muteVideo() {
-            if (video.muted == false) {
+            if (video.muted === false) {
         		// Mute the video
         		video.muted = true;
         		// Update the button image to Volume Off
@@ -69,7 +101,6 @@ window.onload = function() {
             	video.textTracks[0].mode = "showing";
             	// Update the CC button image to CC On
                 document.getElementById("closed-caption-icon").src = "icons/closed-caption-icon.png";
-                console.log(video.textTracks[0].mode);
             }    
         }
         
@@ -114,7 +145,28 @@ window.onload = function() {
     		// Update the buffered bar value
     		bufferedBar.value = value;
         }
-           
+        
+        //Increase volume
+        function volumeUp() {
+            video.volume+=0.1;
+        }
+        
+        //Decrease volume
+        function volumeDown() {
+            video.volume-=0.1;
+        }
+              
+        //Resets time to start time from matching text & plays video
+        function textJump(e) {
+             video.currentTime = e.target.cue.start;
+             video.play();
+         }
+         
+        //Rewinds video 10seconds from current time
+        function rewind10Sec() {
+            video.currentTime = video.currentTime - 10;
+        }
+        
         
     //Event Handling        
         
@@ -146,41 +198,17 @@ window.onload = function() {
         //event listener for end of video to set back to start
         video.addEventListener("timeupdate", function(event) {
             if (video.currentTime == video.duration) {
+                video.pause();
                 video.currentTime = 0;
             }
-        })
+        });
+        
+        //Event listener for volume up
+        volumeUpButton.addEventListener("click", volumeUp);
     
-    // Interactive Transcript
-
-      var textTranscript = document.getElementById("text-transcript");
-      
-      //JSON to hold text cue markers and associated sentence text
-      var syncData = [
-            {"start": "0","end": "7.535","text": "Now that we've looked at the architecture of the internet, let's see how you might connect your personal devices to the internet inside your house."},
-            {"start": "7.536","end": "13.960","text": "Well there are many ways to connect to the internet, and most often people connect wirelessly."},
-            {"start": "13.961","end": "17.940","text": "Let's look at an example of how you can connect to the internet."},
-            {"start": "17.941","end": "30.920","text": "If you live in a city or a town, you probably have a coaxial cable for cable Internet, or a phone line if you have DSL, running to the outside of your house, that connects you to the Internet Service Provider, or ISP."},
-            {"start": "32.100","end": "41.190","text": "If you live far out in the country, you'll more likely have a dish outside your house, connecting you wirelessly to your closest ISP, or you might also use the telephone system."},
-            {"start": "42.350","end": "53.760","text": "Whether a wire comes straight from the ISP hookup outside your house, or it travels over radio waves from your roof, the first stop a wire will make once inside your house, is at your modem."},
-            {"start": "53.761","end": "57.780","text": "A modem is what connects the internet to your network at home."},
-            {"start": "57.780","end": "59.000","text": "A few common residential modems are DSL or..."}            
-          ];
-
-
-          
-      createTranscript(); //call function to create text on page
-      
-      //Creates the transcript content on the page using the object above
-      function createTranscript() {
-          var element;
-          for (var i = 0; i < syncData.length; i++) {
-              element = document.createElement('span');
-//                element.setAttribute("id", "cue_" + i);
-              element.cue = syncData[i];
-              element.innerText = syncData[i].text + " ";
-              textTranscript.appendChild(element);
-          }
-      }
+        //Event listener for volume down
+        volumeDownButton.addEventListener("click", volumeDown);
+   
         //Event listener for text transcript highlight changes
         video.addEventListener("timeupdate", function(e) {
             syncData.forEach(function(element, index, array){
@@ -190,7 +218,7 @@ window.onload = function() {
                     if (video.currentTime < element.start || video.currentTime > element.end) {
                         textTranscript.children[index].classList.remove("active-cue");
                         textTranscript.children[index].classList.add("inactive-cue");  
-                    } //OMG THIS WORKS
+                    } 
             });
         });
 
@@ -201,20 +229,12 @@ window.onload = function() {
                 sentences[i].addEventListener("click", textJump);
             }
             
- 
-        function textJump(e) {
-             video.currentTime = e.target.cue.start;
-             video.play();
-         }
-  
-
-
-     
+        //Event listener for rewind 10 seconds button
+        rewind10SecButton.addEventListener("click", rewind10Sec);
    
-} //End window.onload
+}; //End window.onload
 
 
-       
 
 
 
@@ -223,8 +243,9 @@ window.onload = function() {
 
 //To Do
 
-    //clean up organization, comment all code
+    //Comment all code
     
+//DONE
     // X  Implement the play and pause buttons.
     
     // X  Add volume button that lets you mute the sound or turn it on.
@@ -243,9 +264,9 @@ window.onload = function() {
 
     // X When the user clicks on any sentence in the transcript the video player jumps to the appropriate time in the video.
     
-//    Playback speed control or other helpful controls.
-//    
-//    Volume control so viewer can adjust the volume level, not just mute or on.
-//    
-//    Playback controls include buffering progress of the downloaded video.
-            //Does buffered bar count?  Also, preload none and make a poster or upload to github to check buffering bar is visible.
+        //   X Playback speed control or other helpful controls - added rewind 10 sec button
+        //    
+        //    X Volume control so viewer can adjust the volume level, not just mute or on.
+        //    
+        //   X Playback controls include buffering progress of the downloaded video.
+                    //Created buffering progress bar

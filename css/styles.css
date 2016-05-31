@@ -12,18 +12,12 @@ body {
 }
 
 p {
-    margin: 1.5em;
+    margin: .75em 1.5em;
 }
 
 video {
     width: 100%;
 }
-
-.wrapper  {
-    width: 75%;
-    margin: 2.5% auto 0;
-}
-
 
 /*Video container and controls*/
 
@@ -46,10 +40,11 @@ video {
 
 #video-container:hover .video-controls { /*Show controls on hover*/
     opacity: 1;
-    transform: translate(0,-65px);
-        -webkit-transform: translate(0,-65px);
-        -o-transform: translate(0,-65px); 
-        -moz-transform: translate(0,-65px);
+    -webkit-transform: translate(0,-65px);
+    -o-transform: translate(0,-65px); 
+    -moz-transform: translate(0,-65px);
+    -ms-transform: translate(0,-65px);
+        transform: translate(0,-65px);
 } 
 
     /*Progress Bars*/
@@ -79,12 +74,13 @@ video {
         z-index: 1;
     }
 
-    #video-container:hover #seek-bar,
+    #video-container:hover #seek-bar, /*Raise bars on hover*/
     #video-container:hover #buffered-bar {
-        transform: translate(0,-35px);
-            -webkit-transform: translate(0,-35px);
-            -o-transform: translate(0,-35px); 
-            -moz-transform: translate(0,-35px);
+        -webkit-transform: translate(0,-35px);
+        -o-transform: translate(0,-35px); 
+        -moz-transform: translate(0,-35px);
+        -ms-transform: translate(0,-35px);
+            transform: translate(0,-35px);
     }
     
     #seek-bar::-webkit-progress-bar,
@@ -166,7 +162,6 @@ video {
     #volume-down {
         float: right;
         font-weight: bold;
-        display: inline-block;
         color: white; 
     }
     
@@ -202,37 +197,135 @@ video {
         color: #645f5f;
         transition: all .6s ease-in-out;
     }
-
-    /*Different hover colors for selecting transcript text to click*/
+    
     #text-transcript span {
         cursor: pointer;
+    }
+
+
+/*Media Queries*/
+
+@media screen and (max-width: 425px) and (orientation:portrait){ /*small mobile devices*/
+   
+    .wrapper  {
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    #rewind-10, /*hide extra controls in portrait small screen*/
+    #full-screen,
+    #volume {
+        display: none;
+    }
+    
+    #play-pause img,
+    #mute img,
+    #closed-caption img {
+        width: 75%;
+        height: 75%;
+    }
+    
+    #current-time,
+    #slash,
+    #duration,
+    #volume {
+        font-size: .8em;
+    }
+      
+    #volume-up,
+    #volume-down {
+        line-height: 0.8;
+    }
+        
+    .video-controls {
+        margin-top: 5px;
+        padding: 2px 2px 0;
+    }
+    
+    #video-container:hover .video-controls { /*Show/hide controls on tap*/
+        opacity: 1;
+        -webkit-transform: translate(0,-45px);
+        -o-transform: translate(0,-45px); 
+        -moz-transform: translate(0,-45px);
+        -ms-transform: translate(0,-45px);
+             transform: translate(0,-45px);
+            
+    }
+    
+    #video-container:hover #seek-bar, /*Raise/lower bars on tap*/
+    #video-container:hover #buffered-bar {
+        -webkit-transform: translate(0,-25px);
+        -o-transform: translate(0,-25px); 
+        -moz-transform: translate(0,-25px);
+        -ms-transform: translate(0,-25px);
+                transform: translate(0,-25px);
+    }
+    
+    video::cue { 
+        font-size: 1em;
+    }
+
+}
+
+@media screen and (max-width: 736px) and (orientation:landscape){
+   
+    .wrapper  { /*full width video on landscape on mobile*/
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    #text-transcript { /*hides interactive transcript for landscape on mobile*/
+        display: none;
+    }
+
+}
+
+@media screen and (min-width: 800px) and (max-width: 1023px) and (orientation: landscape) { /*small desktops large tablets*/
+    p {
+        font-size: .85em;
+        margin: 0 auto;
+    }
+    
+    .wrapper {
+        width: 90%;
+        margin: 0 auto;
+    }
+    
+    /*Different hover color for selecting transcript text to click*/
+    #text-transcript span {
         transition: all .6s ease-in-out;
     }
     
     #text-transcript span:hover {
         color: #5cb8d1;
     }
-
-
-
-/*TO DO
-
-X  Embed the video using HTML.
-
-X  Check that the video works in at least 3 modern browsers.
-
-X  Add the transcript below the video (as shown in the mockup file). Use the captions.txt file for the text. Add appropriate <p> tags around the text.
-
-X  Style the page using the mockups as guides.
     
-X  Use Javascript or CSS to hide and show the video player button on mouse hover states.
-    X  -Only the progress bar should remain.
-X Hover over span sentences highlight
+}
 
-A creative and thoughtful responsive design.
+@media screen and (min-width: 1025px) and (orientation: landscape) { /*medium desktops*/
+    p {
+        font-size: 1em;
+        margin: 0 auto;
+    }
+    
+    .wrapper {
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    /*Different hover color for selecting transcript text to click*/
+    #text-transcript span {
+        transition: all .6s ease-in-out;
+    }
+    
+    #text-transcript span:hover {
+        color: #5cb8d1;
+    }
+}
 
-X  Refactor and DRY out CSS
+@media screen and (min-width: 1375px) and (orientation: landscape) { /*large desktops*/
+    p {
+        font-size: 1.3em;
+    }
 
-Make sure X-browser compatible (post-github upload)
-*/
-
+}

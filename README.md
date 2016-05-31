@@ -21,6 +21,7 @@ This is my seventh project for Treehouse Techdegree: Front End Developer.
   not deal breaking for me, but feel like maybe something more elegant is possible.
 * Firefox is proving to require a lot of extra time to ensure compatibilty. But I am starting to resolve issues much faster than before
   as my troubleshooting improves.
+* Another polish issue: Tried to add padding to the seek bar to make it easier to click, but Firefox seems to apply the padding in a way  that made the bar height taller than it should, and I could not find a way to resolve it. So the seek bar click area is somewhat narrow  IMO.
 * This is my second JS project and I committed to writing without jQuery or any other libraries. I'm glad I did. I understand 
   things much more than when I wrote Project 4, and learned an incredible amount from this single project. My confidence with JS
   is higher now and I am able to conceptualize how to structure code more easily.

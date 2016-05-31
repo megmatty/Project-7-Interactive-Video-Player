@@ -33,7 +33,6 @@ window.onload = function() {
         
       //Call function to create transcript on page 
       createTranscript();
-
     
     //FUNCTIONS
         
@@ -54,12 +53,12 @@ window.onload = function() {
             	// Play the video
             	video.play();
                 //Update button img to Pause icon
-                document.getElementById("play-pause-icon").src = "icons/play-icon.png";
+                document.getElementById("play-pause-icon").src = "icons/pause-icon.png";
             } else {
                 //Pause the video
                 video.pause();
                 //Update button img to Play icon
-                document.getElementById("play-pause-icon").src = "icons/pause-icon.png";
+                document.getElementById("play-pause-icon").src = "icons/play-icon.png";
             }
         }
     
@@ -126,8 +125,6 @@ window.onload = function() {
             var seconds = parseInt(video.duration % 60);
             return minutes + ":" + seconds;
         }
-            //Update Video Duration Text with video duration
-            document.getElementById("duration").innerHTML = duration();
         
         //Fill the Seek Bar with progress color as the video plays   
         function seekProgress() {
@@ -167,7 +164,14 @@ window.onload = function() {
         }
         
         
-    //Event Handling        
+    //Event Handling
+    
+        //Event listener for loaded video content (necessary for duration accuracy)
+        video.addEventListener('loadedmetadata', function() {
+            duration();
+            //Update Video Duration Text with video duration
+            document.getElementById("duration").innerHTML = duration();
+        });
         
         //Event listener for play-pause button
         playButton.addEventListener("click", playVideo);

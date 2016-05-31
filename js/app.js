@@ -35,7 +35,7 @@ window.onload = function() {
       createTranscript();
 
     
-    //Functions
+    //FUNCTIONS
         
         //Creates the transcript content on the page using JSON
         function createTranscript() {
@@ -74,7 +74,7 @@ window.onload = function() {
         		// Unmute the video
         		video.muted = false;
         		// Update the button image to Volume Off
-            document.getElementById("mute-icon").src = "icons/volume-on-icon.png";
+                document.getElementById("mute-icon").src = "icons/volume-on-icon.png";
         	}
         }
         
@@ -104,41 +104,40 @@ window.onload = function() {
             }    
         }
         
-        //Update current time of video as it plays
+        //Get Video Current Time in min/sec
          function currentTime() {
             var video = document.getElementById("video");
             var minutes = parseInt(video.currentTime / 60, 10);
             var seconds = parseInt(video.currentTime % 60, 10);
             if (seconds < 10) {
-                seconds = "0" + parseInt(video.currentTime % 60, 10);
+                seconds = "0" + parseInt(video.currentTime % 60, 10); //leading zero
             }
             return minutes + ":" + seconds;
         }
-            //Update video timer text with current time
+            //Update Video Timer Text with current time
              video.ontimeupdate = function() {
                  document.getElementById("current-time").innerHTML = currentTime();
              };
             
-        //Update video time with actual duration
+        //Get Video Duration in min/sec
         function duration() {
             var video = document.getElementById("video");
             var minutes = parseInt(video.duration / 60, 10);
             var seconds = parseInt(video.duration % 60);
             return minutes + ":" + seconds;
         }
-            //Update video timer text with video duration
+            //Update Video Duration Text with video duration
             document.getElementById("duration").innerHTML = duration();
         
-        //Fill the seek bar with progress color as the video plays   
+        //Fill the Seek Bar with progress color as the video plays   
         function seekProgress() {
             // Calculate the seek bar progress value
     		var value = (100 / video.duration) * video.currentTime;
-    
     		// Update the seek bar value
     		seekBar.value = value;
         }
         
-        // Fill the buffered bar with progress color as the video plays
+        // Fill the Buffered Bar with progress color as the video loads/plays
         function bufferProgress() {
             // Calculate the buffered bar progress value
     		var value = (100 / video.duration) * video.buffered.end(0);
@@ -146,23 +145,23 @@ window.onload = function() {
     		bufferedBar.value = value;
         }
         
-        //Increase volume
+        //Increase Volume
         function volumeUp() {
             video.volume+=0.1;
         }
         
-        //Decrease volume
+        //Decrease Volume
         function volumeDown() {
             video.volume-=0.1;
         }
               
-        //Resets time to start time from matching text & plays video
+        //Reset Video Start Time to start time from matching text & play video
         function textJump(e) {
              video.currentTime = e.target.cue.start;
              video.play();
          }
          
-        //Rewinds video 10seconds from current time
+        //Rewinds Video 10 seconds from current time
         function rewind10Sec() {
             video.currentTime = video.currentTime - 10;
         }
@@ -182,20 +181,20 @@ window.onload = function() {
         // Event listener for the closed-caption button
         closedCaptionButton.addEventListener("click", closedCaptions);
                 
-        // Event handler for seekbar progress indication
+        // Event listener for seekbar progress indication
         video.addEventListener("timeupdate", seekProgress);
                 
-        // Event handler for buffer progress indication
+        // Event listener for buffer progress indication
         video.addEventListener("timeupdate", bufferProgress);
                 
-        // Event handler for updating playbar to seekbar click
+        // Event listener for updating playbar to seekbar click
         seekBar.addEventListener("click", function(event) {
             var barClick = event.offsetX / this.offsetWidth;
             video.currentTime = barClick * video.duration;
             seekBar.value = barClick / 100;
         });
     
-        //event listener for end of video to set back to start
+        //Event listener for end of video to set back to start
         video.addEventListener("timeupdate", function(event) {
             if (video.currentTime == video.duration) {
                 video.pause();
@@ -222,51 +221,16 @@ window.onload = function() {
             });
         });
 
-        //Event listener for text click on transcript - i think this is working
-            //when you click on a span
+        //Event listener for text click on transcript
+            //When span is clicked
             var sentences = textTranscript.getElementsByTagName('span');
             for (var i = 0; i < sentences.length; i++) {
-                sentences[i].addEventListener("click", textJump);
+                sentences[i].addEventListener("click", textJump); //Call textJump function
             }
             
         //Event listener for rewind 10 seconds button
         rewind10SecButton.addEventListener("click", rewind10Sec);
-   
+        
+          
 }; //End window.onload
 
-
-
-
-
-
-
-
-//To Do
-
-    //Comment all code
-    
-//DONE
-    // X  Implement the play and pause buttons.
-    
-    // X  Add volume button that lets you mute the sound or turn it on.
-    
-    // X  Implement the fullscreen button.
-        
-    // X  Embed the .vtt file as a closed captioning track 
-        // X  Add a button to video controls to toggle captions on and off.
-    
-    //Implement the playback progress control. 
-        // X  -A user should be able to click anywhere on the playback bar to jump to that part of the video.
-       // X  -As the video plays the playback bar should fill in.
-       // X  -As the video plays the current time should be displayed and updated e.g. 0:10 / 11:34.
-    
-    // X As the media playback time changes, sentences in the transcript should highlight.
-
-    // X When the user clicks on any sentence in the transcript the video player jumps to the appropriate time in the video.
-    
-        //   X Playback speed control or other helpful controls - added rewind 10 sec button
-        //    
-        //    X Volume control so viewer can adjust the volume level, not just mute or on.
-        //    
-        //   X Playback controls include buffering progress of the downloaded video.
-                    //Created buffering progress bar

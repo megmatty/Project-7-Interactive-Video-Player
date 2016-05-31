@@ -54,7 +54,7 @@ video {
         -moz-appearance: none;
         height: 3px;
         border: none;
-        background-color: rgba(231, 230, 230, 0.3);
+        background-color: rgba(231, 230, 230, 0.1);
     }
     
     #seek-bar,
@@ -85,7 +85,7 @@ video {
     
     #seek-bar::-webkit-progress-bar,
     #buffered-bar::-webkit-progress-bar {
-        background-color: rgba(231, 230, 230, 0.3);
+        background-color: rgba(231, 230, 230, 0.1);
     }
     
     #seek-bar::-webkit-progress-value {
